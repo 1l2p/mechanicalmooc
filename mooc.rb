@@ -32,6 +32,7 @@ class User
   property :group_confirmation, Boolean, :default => false
   property :defered, String, :default => "unanswered"
   property :manually_added, Boolean, :default => false
+  property :source, String, :default => 'main'
 
   property :unsubscribed_at, DateTime
   property :created_at, DateTime
