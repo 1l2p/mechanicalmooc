@@ -16,8 +16,8 @@ module UserDefer
   def self.send_defer_email(email)
     body = File.read('./emails/user-defer.html')
     
-    link_yes_template = "http://http://learn.media.mit.edu/defer?email=%EMAIL%&auth_token=%AUTH_TOKEN%&defer=yes"
-    link_no_template = "http://http://learn.media.mit.edu/defer?email=%EMAIL%&auth_token=%AUTH_TOKEN%&defer=no"
+    link_yes_template = "http://learn.media.mit.edu/defer?email=%EMAIL%&auth_token=%AUTH_TOKEN%&defer=yes"
+    link_no_template = "http://learn.media.mit.edu/defer?email=%EMAIL%&auth_token=%AUTH_TOKEN%&defer=no"
     yes_defer_link = link_yes_template.sub('%EMAIL%', email).sub('%AUTH_TOKEN%', email_auth(email))
     no_defer_link = link_no_template.sub('%EMAIL%', email).sub('%AUTH_TOKEN%', email_auth(email))
 
