@@ -11,6 +11,7 @@ gem 'rest-client'
 gem 'multimap'
 gem 'activemodel'
 gem 'html2markdown'
+gem 'newrelic_rpm'
 
 group :production do
     gem "pg"
