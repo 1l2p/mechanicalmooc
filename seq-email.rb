@@ -11,11 +11,13 @@ require 'mooc'
 class SequenceEmail
   include ActiveModel::Validations
   
-  attr_accessor :sequence, :tags, :subject, :body
+  attr_accessor :sequence, :tags, :subject, :body, :from, :domain
   validates_presence_of :tags, :subject, :body, :sequence
 
   def initialize(output_stream = $stdout)
     @tags = []
+    @domain = "lcl.mechanicalmooc.org"
+    @from = "The Machine (aka Oliver) <medialabcourse@p2pu.org>"
     @output_stream = output_stream
   end
 
@@ -44,7 +46,7 @@ class SequenceEmail
 
   def send_email_to(email_address)
     data = Multimap.new
-    data[:from] = "The Machine <the-machine@mechanicalmooc.org>"
+    data[:from] = @from
     data[:subject] = @subject
     data["o:tag"] = @tags && @tags.map{|t| t.to_s }.join(" ")
     data[:to] = email_address
@@ -52,7 +54,7 @@ class SequenceEmail
     page = HTMLPage.new :contents => @body
     data[:text] = page.markdown
     RestClient.post("https://api:#{ENV['MAILGUN_API_KEY']}"\
-                    "@api.mailgun.net/v2/mechanicalmooc.org/messages", data)
+                    "@api.mailgun.net/v2/#{@domain}/messages", data)
   end
 
   private
@@ -60,7 +62,7 @@ class SequenceEmail
   def send_email_to_users(email_addresses, campaign_id)
     email_addresses.each do |email_address|
       data = Multimap.new
-      data[:from] = "The Machine <the-machine@mechanicalmooc.org>"
+      data[:from] = @from
       data[:subject] = @subject
       data["o:tag"] = @tags && @tags.map{|t| t.to_s }.join(" ")
       data[:to] = email_address
@@ -75,7 +77,7 @@ class SequenceEmail
       data["o:tracking-opens"] = "yes"
       @output_stream << "Sending email to " + data[:to].join(', ') + "...    "
       @output_stream << RestClient.post("https://api:#{ENV['MAILGUN_API_KEY']}"\
-                                        "@api.mailgun.net/v2/mechanicalmooc.org/messages", data)
+                                        "@api.mailgun.net/v2/#{@domain}/messages", data)
       @output_stream << "\n<br />"
     end
   end
@@ -83,7 +85,7 @@ class SequenceEmail
   def send_email_to_groups(group_numbers)
     group_numbers.each do |group_number|
       data = Multimap.new
-      data[:from] = "The Machine <the-machine@mechanicalmooc.org>"
+      data[:from] = @from
       data[:subject] = @subject
       data[:to] = "python-#{group_number}@mechanicalmooc.org"
       data[:html] = @body
@@ -98,7 +100,7 @@ class SequenceEmail
 
       @output_stream << "Sending email to " + data[:to].join(', ') + "...    "
       @output_stream << RestClient.post("https://api:#{ENV['MAILGUN_API_KEY']}"\
-                                        "@api.mailgun.net/v2/mechanicalmooc.org/messages", data)
+                                        "@api.mailgun.net/v2/#{@domain}/messages", data)
       @output_stream << "\n<br />"
     end
   end
