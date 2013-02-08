@@ -519,11 +519,17 @@ input.ui-widget-content, input.ui-widget-content:focus{
   text-align: center;
 }
 
-.about p, .faq p {
+.about p, .faq p, .main p {
   font-size: 18px;
   text-align: justify;
   line-height: 26px;
   padding-top: 0.7em;
+}
+
+.main li{
+  font-size: 16px;
+  text-align: justify;
+  line-height: 26px;
 }
 
 .faq h2 {

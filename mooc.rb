@@ -7,9 +7,11 @@ require 'dm-timestamps'
 require 'dm-validations'
 require 'dm-migrations'
 require 'rest_client'
+require 'newrelic_rpm'
 $LOAD_PATH << '.'
 require 'seq-email'
 require 'group-confirm'
+require 'user-defer'
 
 DataMapper.setup(:default, ENV['DATABASE_URL'] || "sqlite3://#{Dir.pwd}/development.db")
 
@@ -29,6 +31,9 @@ class User
   property :unsubscribed, Boolean, :default => false
   property :round, Integer, :default => 1
   property :group_confirmation, Boolean, :default => false
+  property :defered, String, :default => "unanswered"
+  property :manually_added, Boolean, :default => false
+  property :source, String, :default => 'main'
 
   property :unsubscribed_at, DateTime
   property :created_at, DateTime
@@ -200,6 +205,19 @@ end
 get '/confirm' do
   GroupConfirm.confirm(params[:email], params[:auth_token])
   File.read(File.join('public', 'confirmed.html'))
+end
+
+get '/defer' do
+  user = UserDefer.defer(params[:email], params[:auth_token], params[:defer])
+  if user
+    if params[:defer] == "yes"
+      File.read(File.join('public', 'user-deferred-yes.html'))
+    elsif params[:defer] == "no"
+      File.read(File.join('public', 'user-deferred-no.html'))
+    end
+  else
+    status 500
+  end
 end
 
 
