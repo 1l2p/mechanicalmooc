@@ -16,7 +16,7 @@ class SequenceEmail
   def initialize(output_stream = $stdout)
     @tags = []
     @domain = "lcl.mechanicalmooc.org"
-    @from = "The Machine (aka Oliver) <medialabcourse@p2pu.org>"
+    @from = "The Machine (aka Oliver) <the-machine@#{@domain}>"
     @output_stream = output_stream
   end
 
@@ -56,7 +56,6 @@ class SequenceEmail
                     "@api.mailgun.net/v2/#{@domain}/messages", data)
   end
 
-  private
 
   def send_email_to_users(email_addresses, campaign_id)
     email_addresses.each do |email_address|
@@ -86,13 +85,14 @@ class SequenceEmail
       data = Multimap.new
       data[:from] = @from
       data[:subject] = @subject
-      data[:to] = "python-#{group_number}@mechanicalmooc.org"
+      data[:to] = "lcl-#{group_number}@#{@domain}"
       data[:html] = @body
       page = HTMLPage.new :contents => @body
       data[:text] = page.markdown
       data["o:tag"] = "production"
       # data["o:testmode"] = "true"
       data["o:tag"] = @tags && @tags.map{|t| t.to_s }.join(" ")
+      data["o:tag"] = "group-#{group_number}"
       data["o:tracking"] = "yes"
       data["o:tracking-clicks"] = "yes"
       data["o:tracking-opens"] = "yes"
