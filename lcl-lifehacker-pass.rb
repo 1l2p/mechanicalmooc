@@ -349,7 +349,7 @@ end
 
 
 mgs = MakeGroupStrategy.new
-mgs.groups_to_make = {'40' => 80 }
+mgs.groups_to_make = {'40' => 83 }
 
 dis = DistributeInitialStrategy.new
 dis.criteria = :timezone
