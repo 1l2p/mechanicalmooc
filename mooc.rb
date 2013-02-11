@@ -75,6 +75,10 @@ class User
     true
   end
 
+  def ==(other)
+    self.email == other.email
+  end
+
   def add_user_to_all_list
     begin
       RestClient.post("https://api:#{ENV['MAILGUN_API_KEY']}" \

@@ -7,7 +7,6 @@ require 'html2markdown'
 $LOAD_PATH << '.'
 require 'mooc'
 
-
 class SequenceEmail
   include ActiveModel::Validations
   
