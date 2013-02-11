@@ -4,10 +4,8 @@ $LOAD_PATH << '.'
 require 'mooc'
 require 'pp'
 require 'logger'
-require 'ruby-debug'
 
 
-# ENV['MAILGUN_API_KEY'] = "key-4kkoysznhb93d1hn8r37s661fgrud-66"
 RestClient.log = 'restclient.log'
 
 
