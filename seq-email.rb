@@ -23,10 +23,11 @@ class SequenceEmail
   def send!
     errors.clear
     return errors unless valid?
-    if @sequence == "sequence_1"
-      individual_users = User.all :group_work => false, :round => 1
-      send_email_to_users( individual_users.collect{|u| u.email} , "bqtde")
-      send_email_to_groups( 2..170 )
+    if @sequence == "sequence_1_all"
+      # individual_users = User.all :group_work => false, :round => 1
+      # send_email_to_users( individual_users.collect{|u| u.email} , "bqtde")
+      group_numbers = Group.all.map{|g| g.id}
+      send_email_to_groups( group_numbers )
     elsif @sequence == "sequence_2"
       sequence2_users = User.all :group_work => false, :round => 2
       send_email_to_users( sequence2_users.collect{|u| u.email} , "br67o")

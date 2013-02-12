@@ -56,12 +56,12 @@
         <div class="span12">
           <form id="emailForm" class="form well" action="./admin/send-email" method="post">
           <div class="btn-group" data-toggle-name="sequence" data-toggle="buttons-radio" >
-            <button type="button" value="sequence_1" class="btn btn-primary" data-toggle="button">Sequence 1</button>
+            <button id="only-button" type="button" value="sequence_1_all" class="btn btn-primary" data-toggle="button">Sequence 1 All</button>
+<!--
             <button type="button" value="sequence_2" class="btn btn-primary" data-toggle="button">Sequence 2</button>
-            <button type="button" value="sequence_3_all" class="btn
-      btn-primary" data-toggle="button">Sequence 3 All</button>
-            <button type="button" value="sequence_3_groups" class="btn
-      btn-primary" data-toggle="button">Sequence 3 Groups</button>
+            <button type="button" value="sequence_3_all" class="btn btn-primary" data-toggle="button">Sequence 3 All</button>
+            <button type="button" value="sequence_3_groups" class="btn btn-primary" data-toggle="button">Sequence 3 Groups</button>
+-->
           </div>
           <input type="hidden" name="sequence" value="0" /><br /><br />
           <div id="user-count" class="alert alert-info" style="display:none;">
@@ -170,10 +170,11 @@
             }
           });
         });
-      });
-      $('#send_preview').live('click', function(){
-        $.post("./admin/send-test-email", $("#emailForm").serialize());
-        return false;
+        $('#send_preview').live('click', function(){
+          $.post("./admin/send-test-email", $("#emailForm").serialize());
+          return false;
+        });
+        $('#only-button').trigger('click');
       });
     </script>
     
